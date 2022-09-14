@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1058171797197",
+    "project_id": "texteditorapp-badad",
+    "storage_bucket": "texteditorapp-badad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058171797197:android:af6645eabeda5c4389b384",
+        "android_client_info": {
+          "package_name": "com.denuvo.texteditorapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058171797197-c6e92rjm6jvujsv29gpqapfdubcr9nc4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.denuvo.texteditorapp",
+            "certificate_hash": "651657aad6c1dc72eff811877c8a7a421f2e4b27"
+          }
+        },
+        {
+          "client_id": "1058171797197-24e50fdevifot93g1l18fo2l2qbb0dok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi3uH-_-qtHPULSNVf3qNAnEsItyGtZps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058171797197-24e50fdevifot93g1l18fo2l2qbb0dok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

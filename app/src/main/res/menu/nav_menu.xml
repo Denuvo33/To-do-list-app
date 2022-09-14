@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <item
+        android:title="Email"
+        android:id="@+id/email"
+        android:icon="@drawable/ic_email"/>
+    <item
+        android:title="Logout"
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_login"/>
+
+    <item
+        android:title="Communicate">
+
+        <menu>
+
+            <item
+                android:title="Rate us"
+                android:id="@+id/rate_us"
+                android:icon="@drawable/ic_rate_review"/>
+
+
+        </menu>
+
+
+
+    </item>
+
+</menu>
