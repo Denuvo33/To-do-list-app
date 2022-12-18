@@ -48,17 +48,21 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:text="Title"/>
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Description"
+                                    android:textColor="@color/black"
                                     android:layout_marginLeft="7dp"
-                                    android:layout_marginBottom="10dp"
                                     android:maxWidth="200dp"
                                     android:id="@+id/txt_desc"
                                     android:layout_marginTop="20dp"/>
 
+
+
                         </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/btn_done"
                             android:layout_width="wrap_content"
@@ -66,9 +70,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="20dp"
                             android:text="Complete" />
-
-
-
                 </RelativeLayout>
 
                 <LinearLayout
@@ -96,19 +97,5 @@
                 </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/img_showalarm"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_access_time"
-            android:translationZ="90dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/item_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.58"
-            app:layout_constraintStart_toStartOf="@+id/item_card"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26"
-            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

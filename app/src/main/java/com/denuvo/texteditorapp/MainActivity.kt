@@ -1,10 +1,8 @@
 package com.denuvo.texteditorapp
 
 import android.app.*
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
+import android.content.Context.NOTIFICATION_SERVICE
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +24,7 @@ import com.denuvo.texteditorapp.recycler.ViewHolder
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.resources.MaterialResources.getDrawable
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
@@ -45,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     val bottomsheetDialog = BottomDialog()
     private lateinit var viewModelData: ViewModelData
     var myList = ArrayList<TaskData>()
+    var backUpList = ArrayList<TaskData>()
     val callItemAdapter = ItemAdapter(this,myList)
     var persentase = callItemAdapter.persentase
     lateinit var pendingIntent : PendingIntent
@@ -175,23 +175,53 @@ class MainActivity : AppCompatActivity() {
        val swipeToDeleteCallBack = object : SwipeToDeleteCallBack(){
            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                val position = viewHolder.adapterPosition
-               deleteData(myList,position)
-               binding.recyclerView.adapter?.notifyItemRemoved(position)
-               val checked = viewHolder.itemView.findViewById<CheckBox>(R.id.btn_done)
-               if (checked.isChecked == false) {
-                   persentase += 5f
-                   val editor = sp.edit()
-                   editor.putFloat("valuee",persentase)
-                   editor.apply()
-                   cancelNotif()
-                   binding.circularBar.apply {
-                       setProgressWithAnimation(persentase,1000)
-                       binding.txtPersentase.text = "${persentase.toInt()}%"
+               when(direction){
+                   ItemTouchHelper.LEFT -> {
+                       deleteData(myList,position)
+                       binding.recyclerView.adapter?.notifyItemRemoved(position)
+                       val checked = viewHolder.itemView.findViewById<CheckBox>(R.id.btn_done)
+                       if (checked.isChecked == false) {
+                           persentase += 5f
+                           val editor = sp.edit()
+                           editor.putFloat("valuee",persentase)
+                           editor.apply()
+                           cancelNotif()
+                           binding.circularBar.apply {
+                               setProgressWithAnimation(persentase,1000)
+                               binding.txtPersentase.text = "${persentase.toInt()}%"
+                           }
+                       } else{
+                           saveTask(myList,persentase)
+                       }
+                       checked.isChecked = false
                    }
-               } else{
-                   saveTask(myList,persentase)
+                   ItemTouchHelper.RIGHT -> {
+                       var editText = EditText(this@MainActivity)
+                       var desc = EditText(this@MainActivity)
+                       editText.setText("Update Title")
+                       desc.setText("Update Task")
+                       val builder = AlertDialog.Builder(this@MainActivity)
+                       builder.setTitle("Update Task")
+                       var layout = LinearLayout(this@MainActivity)
+                       layout.setOrientation(LinearLayout.VERTICAL)
+                       layout.addView(editText)
+                       layout.addView(desc)
+                       builder.setCancelable(true)
+                       builder.setView(layout)
+                       builder.setNegativeButton("Cancel",DialogInterface.OnClickListener{dialog, which ->
+                           myList.clear()
+                           myList.addAll(backUpList)
+                           myAdapter.notifyDataSetChanged()
+                       })
+                       builder.setPositiveButton("Update",DialogInterface.OnClickListener { dialog, which ->
+                           myList.set(position, TaskData(editText.text.toString(),desc.text.toString()))
+                           myAdapter.notifyDataSetChanged()
+                           saveTask(myList,persentase)
+                       })
+                       builder.show()
+                   }
                }
-               checked.isChecked = false
+
            }
        }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallBack)
@@ -321,6 +351,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else{
             myList = gson.fromJson(json,type)
+            backUpList.addAll(myList)
             binding.gifMan.visibility = View.INVISIBLE
             persentase = persentasee
             binding.circularBar.apply {
